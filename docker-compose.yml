@@ -7,4 +7,3 @@ services:
     image: angular-app:1.0
     ports:
       - 80:80
-

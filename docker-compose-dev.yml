@@ -5,5 +5,4 @@ services:
       context: .
       target: dev
     volumes:
-    - ./:/app
-
+      - ./:/app
