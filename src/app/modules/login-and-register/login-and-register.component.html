@@ -1,4 +1,8 @@
-<section>
-  <app-login></app-login>
-  <app-register></app-register>
+<section class="container--credentials">
+  <button mat-flat-button color="primatry" (click)="toggleView(true)">Login</button>
+  <button mat-flat-button color="accent" (click)="toggleView(false)">Register</button>
+  <app-login *ngIf="isLoginView; else register"></app-login>
+  <ng-template #register>
+    <app-register></app-register>
+  </ng-template>
 </section>

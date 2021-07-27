@@ -5,8 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './login-and-register.component.html',
   styleUrls: ['./login-and-register.component.scss'],
 })
-export class LoginAndRegisterComponent implements OnInit {
-  constructor() {}
+export class LoginAndRegisterComponent {
+  isLoginView: boolean = true;
 
-  ngOnInit(): void {}
+  toggleView(isLogin: boolean): void {
+    this.isLoginView = isLogin;
+  }
 }

@@ -21,4 +21,10 @@ describe('LoginAndRegisterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle view to Register', () => {
+    component.toggleView(false);
+
+    expect(component.isLoginView).toEqual(false);
+  });
 });
