@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RegisterService } from '../../../../core/services/register-service/register.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { errorMsg } from '../../../../helper/errorMsg';
+import { AuthService } from '../../../../core/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,17 +10,14 @@ import { errorMsg } from '../../../../helper/errorMsg';
 export class RegisterComponent implements OnInit {
   fg!: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly registerService: RegisterService) {}
+  constructor(private readonly fb: FormBuilder, private readonly authService: AuthService) {}
 
   register(): void {
     if (this.fg.invalid) {
       return;
     }
 
-    this.registerService.register(this.fg.getRawValue()).subscribe(
-      (res) => console.log('data from register', res),
-      (err: HttpErrorResponse) => errorMsg(err)
-    );
+    this.authService.register(this.fg.getRawValue());
   }
 
   ngOnInit(): void {

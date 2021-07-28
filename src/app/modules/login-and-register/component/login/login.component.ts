@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../../../core/services/login-service/login.service';
-import { Token } from '../../../../models/token';
-import { HttpErrorResponse } from '@angular/common/http';
-import { errorMsg } from '../../../../helper/errorMsg';
+import { AuthService } from '../../../../core/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +10,7 @@ import { errorMsg } from '../../../../helper/errorMsg';
 export class LoginComponent implements OnInit {
   fg!: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly loginService: LoginService) {}
+  constructor(private readonly fb: FormBuilder, private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -24,10 +21,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loginService.login(this.fg.getRawValue()).subscribe(
-      (res: Token) => console.log('value form login', res),
-      (err: HttpErrorResponse) => errorMsg(err)
-    );
+    this.authService.login(this.fg.getRawValue());
   }
 
   private initForm(): void {
