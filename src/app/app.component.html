@@ -1,1 +1,14 @@
+<mat-toolbar *ngIf="isUserData$ | async as user">
+  <section class="container--between-element">
+    <div class="container--menu">
+      <a [routerLink]="['/user']">User</a>
+      <a [routerLink]="['/cv']">Cv generator</a>
+    </div>
+
+    <div class="container--userInfo">
+      {{ user.username }}
+      <img src="/assets/image/log-out.svg" alt="" (click)="logout()" />
+    </div>
+  </section>
+</mat-toolbar>
 <router-outlet></router-outlet>

@@ -1,0 +1,14 @@
+.container {
+  &--table {
+    padding: 2rem;
+  }
+}
+
+.table {
+  width: 100%;
+
+  &--between-element {
+    display: flex;
+    justify-content: space-between;
+  }
+}

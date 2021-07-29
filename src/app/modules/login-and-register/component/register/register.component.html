@@ -8,7 +8,7 @@
   </mat-card-header>
 
   <form [formGroup]="fg" (submit)="register()">
-    <mat-card-content>
+    <mat-card-content class="vertical-form">
       <mat-form-field>
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" type="text" data-testId="email-register" />
