@@ -18,8 +18,8 @@ export class CheckPermissionsDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.authService.roles$.pipe(takeUntil(this.destroy$)).subscribe((roles: string[]) => {
-      if (roles?.length > 0 && this.checkPermission(roles, this.appCheckPermissions)) {
+    this.authService.roles$.pipe(takeUntil(this.destroy$)).subscribe((roles: string[] | null) => {
+      if (roles && this.checkPermission(roles, this.appCheckPermissions)) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from './sersvices/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { errorMsg } from '../../helper/errorMsg';
@@ -13,24 +13,24 @@ import { find as _find, some as _some } from 'lodash';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
-export class UserComponent implements OnInit, OnDestroy {
-  users!: User[];
+export class UserComponent implements AfterViewInit, OnDestroy {
+  users: User[] = [];
   displayedColumns: string[] = ['id', 'email', 'username', 'createdAt', 'updatedAt'];
-  private getUser$!: Observable<string[]>;
-  private getUsers$!: Observable<string[]>;
+  private getUser$!: Observable<string[] | null>;
+  private getUsers$!: Observable<string[] | null>;
   private destroy$: Subject<any> = new Subject<any>();
 
   constructor(private readonly userService: UserService, private readonly authService: AuthService) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getUser$ = this.authService.roles$.pipe(
-      filter((res: string[]) => {
+      filter((res: string[] | null) => {
         return !this.isReturnUsers(res);
       })
     );
 
     this.getUsers$ = this.authService.roles$.pipe(
-      filter((res: string[]) => {
+      filter((res: string[] | null) => {
         return this.isReturnUsers(res);
       })
     );
@@ -74,7 +74,7 @@ export class UserComponent implements OnInit, OnDestroy {
     );
   }
 
-  private isReturnUsers(permissions: string[]): boolean {
+  private isReturnUsers(permissions: string[] | null): boolean {
     return _some(permissions, (elem: string) => elem === 'ROLE_ADMIN');
   }
 }
