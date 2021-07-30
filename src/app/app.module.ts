@@ -17,6 +17,5 @@ import { CheckPermissionsDirective } from './core/direcitves/check-permissions.d
     { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent],
-  exports: [CheckPermissionsDirective],
 })
 export class AppModule {}
