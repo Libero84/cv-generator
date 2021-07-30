@@ -14,6 +14,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/user/user.module').then((m) => m.UserModule),
   },
   {
+    path: 'cv',
+    loadChildren: () => import('./modules/cv/cv.module').then((m) => m.CvModule),
+  },
+  {
     path: '',
     redirectTo: 'user',
     pathMatch: 'full',

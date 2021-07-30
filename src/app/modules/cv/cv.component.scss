@@ -1,0 +1,10 @@
+.container {
+  &--cv {
+    padding: 1rem;
+  }
+  &--table {
+    & table {
+      width: 100%;
+    }
+  }
+}

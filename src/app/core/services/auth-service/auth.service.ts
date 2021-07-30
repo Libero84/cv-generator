@@ -16,9 +16,9 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   isUserData$: Observable<Credentials | null>;
-  isUserDataSubject$: Subject<Credentials | null> = new BehaviorSubject<Credentials | null>(this.setUserData());
-  roles$: Observable<string[]>;
-  rolesSubject$: Subject<string[]> = new BehaviorSubject<string[]>(this.setPreviousRoles());
+  isUserDataSubject$: BehaviorSubject<Credentials | null> = new BehaviorSubject<Credentials | null>(this.setUserData());
+  roles$: Observable<string[] | null>;
+  rolesSubject$: BehaviorSubject<string[] | null> = new BehaviorSubject<string[] | null>(this.setPreviousRoles());
 
   constructor(
     private readonly loginService: LoginService,
@@ -35,7 +35,7 @@ export class AuthService {
         localStorage.setItem('token', res.token);
         this.setLogin(res.token);
         this.getRoles(res.token);
-        this.router.navigateByUrl('/user');
+        this.router.navigate(['/user']);
       },
       (error: HttpErrorResponse) => errorMsg(error)
     );
@@ -58,12 +58,11 @@ export class AuthService {
 
   private getRoles(token: string): void {
     const credentials: Credentials | null = this.getToken(token);
-    this.rolesSubject$.next(credentials?.roles);
+    this.rolesSubject$.next(credentials ? credentials.roles : null);
   }
 
   private resetRoles(): void {
-    this.rolesSubject$.next();
-    this.rolesSubject$.complete();
+    this.rolesSubject$.next(null);
   }
 
   private setLogin(token: string | null): void {
@@ -76,10 +75,10 @@ export class AuthService {
     return token ? this.getToken(token) : null;
   }
 
-  private setPreviousRoles(): string[] {
+  private setPreviousRoles(): string[] | null {
     const token: string | null = localStorage.getItem('token');
     const credentials: Credentials | null = this.getToken(token);
-    return credentials ? credentials.roles : [];
+    return credentials ? credentials.roles : null;
   }
 
   private getToken(token: string | null): Credentials | null {
