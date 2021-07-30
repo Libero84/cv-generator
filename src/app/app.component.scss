@@ -1,0 +1,30 @@
+.container {
+  &--between-element {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &--menu {
+    & a {
+      text-decoration: none;
+      font-size: 1rem;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  &--userInfo {
+    display: flex;
+    align-items: center;
+
+    & img {
+      width: 2rem;
+      padding-left: 3rem;
+      cursor: pointer;
+    }
+  }
+}

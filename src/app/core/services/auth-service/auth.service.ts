@@ -8,24 +8,24 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { errorMsg } from '../../../helper/errorMsg';
 import jwt_decode from 'jwt-decode';
 import { Credentials } from '../../../models/credentials';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  isLogin$!: Observable<boolean>;
-  isLoginSubject$: Subject<boolean> = new BehaviorSubject<boolean>(false);
-  roles$!: Observable<string[]>;
-  rolesSubject$: Subject<string[]> = new ReplaySubject<string[]>(1);
+  isUserData$: Observable<Credentials | null>;
+  isUserDataSubject$: Subject<Credentials | null> = new BehaviorSubject<Credentials | null>(this.setUserData());
+  roles$: Observable<string[]>;
+  rolesSubject$: Subject<string[]> = new BehaviorSubject<string[]>(this.setPreviousRoles());
 
   constructor(
     private readonly loginService: LoginService,
     private readonly registerService: RegisterService,
     private readonly router: Router
   ) {
-    this.isLogin$ = this.isLoginSubject$.asObservable();
+    this.isUserData$ = this.isUserDataSubject$.asObservable();
     this.roles$ = this.rolesSubject$.asObservable();
   }
 
@@ -33,7 +33,7 @@ export class AuthService {
     this.loginService.login(body).subscribe(
       (res: Token) => {
         localStorage.setItem('token', res.token);
-        this.setLogin(res);
+        this.setLogin(res.token);
         this.getRoles(res.token);
         this.router.navigateByUrl('/user');
       },
@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.setLogin();
+    this.setLogin(null);
     this.resetRoles();
     localStorage.removeItem('token');
     localStorage.clear();
@@ -56,14 +56,9 @@ export class AuthService {
     );
   }
 
-  checkLogin(): boolean {
-    return !!localStorage.getItem('token');
-  }
-
   private getRoles(token: string): void {
-    const credentials: Credentials = jwt_decode(token);
-    this.rolesSubject$.next(credentials.roles);
-    this.rolesSubject$.complete();
+    const credentials: Credentials | null = this.getToken(token);
+    this.rolesSubject$.next(credentials?.roles);
   }
 
   private resetRoles(): void {
@@ -71,7 +66,23 @@ export class AuthService {
     this.rolesSubject$.complete();
   }
 
-  private setLogin(token?: Token): void {
-    this.isLoginSubject$.next(!!token);
+  private setLogin(token: string | null): void {
+    const credential: Credentials | null = this.getToken(token);
+    this.isUserDataSubject$.next(credential);
+  }
+
+  private setUserData(): Credentials | null {
+    const token: string | null = localStorage.getItem('token');
+    return token ? this.getToken(token) : null;
+  }
+
+  private setPreviousRoles(): string[] {
+    const token: string | null = localStorage.getItem('token');
+    const credentials: Credentials | null = this.getToken(token);
+    return credentials ? credentials.roles : [];
+  }
+
+  private getToken(token: string | null): Credentials | null {
+    return token ? jwt_decode(token) : null;
   }
 }

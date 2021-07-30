@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './core/services/auth-service/auth.service';
+import { Observable } from 'rxjs';
+import { Credentials } from './models/credentials';
 
 @Component({
   selector: 'app-root',
@@ -9,19 +11,13 @@ import { AuthService } from './core/services/auth-service/auth.service';
 })
 export class AppComponent {
   title = 'cv-generator-frontend';
+  isUserData$: Observable<Credentials | null>;
 
-  constructor(private readonly router: Router, private readonly authSersvice: AuthService) {
-    debugger;
-    if (this.authSersvice.checkLogin()) {
-      this.shouldRouterToUser();
-    } else {
-      this.router.navigateByUrl('/login-and-register');
-    }
+  constructor(private readonly authService: AuthService) {
+    this.isUserData$ = this.authService.isUserData$;
   }
 
-  private shouldRouterToUser(): void {
-    if (location.pathname === '/') {
-      this.router.navigateByUrl('/user');
-    }
+  logout(): void {
+    this.authService.logout();
   }
 }

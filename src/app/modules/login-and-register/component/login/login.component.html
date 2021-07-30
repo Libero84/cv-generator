@@ -8,7 +8,7 @@
   </mat-card-header>
 
   <form [formGroup]="fg" (submit)="login()">
-    <mat-card-content>
+    <mat-card-content class="vertical-form">
       <mat-form-field>
         <mat-label>User name</mat-label>
         <input matInput formControlName="username" type="text" data-testId="username-login" />

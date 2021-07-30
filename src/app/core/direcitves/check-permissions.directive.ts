@@ -33,6 +33,6 @@ export class CheckPermissionsDirective implements OnInit, OnDestroy {
   }
 
   private checkPermission(roles: string[], role: string): boolean {
-    return _some(roles, role);
+    return _some(roles, (permission_role: string) => permission_role === role);
   }
 }
