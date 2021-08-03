@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CvService } from '../../service/cv.service';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+enum TypeOfControlArray {
+  EDUCATION = 'education',
+  EXPERIENCE = 'experiences',
+}
 
 @Component({
   selector: 'app-add-cv',
@@ -9,8 +13,17 @@ import { CvService } from '../../service/cv.service';
 })
 export class AddCvComponent implements OnInit {
   fg!: FormGroup;
+  typeOfControlArray!: typeof TypeOfControlArray;
 
-  constructor(private readonly cvService: CvService, private readonly formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: FormBuilder) {}
+
+  get experiences(): FormArray {
+    return this.fg.controls[TypeOfControlArray.EXPERIENCE] as FormArray;
+  }
+
+  get education(): FormArray {
+    return this.fg.controls[TypeOfControlArray.EDUCATION] as FormArray;
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -22,7 +35,22 @@ export class AddCvComponent implements OnInit {
     }
   }
 
-  cancel(): void {}
+  addExperience(): void {
+    this.experiences.push(this.createExperiences());
+  }
+
+  addEducation(): void {
+    this.education.push(this.createEducation());
+  }
+
+  cancel(): void {
+    this.fg.reset();
+    this.fg.clearValidators();
+  }
+
+  deleteItem(index: number, type: TypeOfControlArray): void {
+    this[type].removeAt(index);
+  }
 
   private initForm(): void {
     this.fg = this.formBuilder.group({
@@ -30,6 +58,26 @@ export class AddCvComponent implements OnInit {
       surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [null, Validators.required],
+      [TypeOfControlArray.EDUCATION]: this.formBuilder.array([]),
+      [TypeOfControlArray.EXPERIENCE]: this.formBuilder.array([]),
+    });
+  }
+
+  private createExperiences(): FormGroup {
+    return this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+    });
+  }
+
+  private createEducation(): FormGroup {
+    return this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
     });
   }
 }

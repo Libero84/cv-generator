@@ -1,23 +1,97 @@
 <form [formGroup]="fg" (submit)="addCv()">
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="name" />
-  </mat-form-field>
+  <section class="vertical-form">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>SurName</mat-label>
-    <input matInput type="text" formControlName="surname" />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>SurName</mat-label>
+      <input matInput type="text" formControlName="surname" />
+    </mat-form-field>
+  </section>
 
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input matInput type="text" formControlName="email" />
-  </mat-form-field>
+  <section class="vertical-form">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="text" formControlName="email" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Phone</mat-label>
-    <input matInput type="number" formControlName="phone" />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Phone</mat-label>
+      <input matInput type="number" formControlName="phone" />
+    </mat-form-field>
+  </section>
+
+  <ng-container formArrayName="education">
+    <ng-container *ngFor="let edu of education.controls; let i = index">
+      <div [formGroupName]="i" class="vertical-form">
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input matInput type="text" formControlName="title" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input matInput type="text" formControlName="description" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>startDate</mat-label>
+          <input matInput type="text" formControlName="startDate" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>endDate</mat-label>
+          <input matInput type="text" formControlName="endDate" />
+        </mat-form-field>
+      </div>
+
+      <mat-icon
+        class="cursor-pointer"
+        aria-hidden="false"
+        aria-label="Example home icon"
+        (click)="deleteItem(i, typeOfControlArray.EDUCATION)"
+        >trash</mat-icon
+      >
+    </ng-container>
+    <button mat-flat-button type="button" (click)="addEducation()">Add Education</button>
+  </ng-container>
+
+  <ng-container formArrayName="experiences">
+    <ng-container *ngFor="let exp of experiences.controls; let i = index">
+      <div [formGroupName]="i" class="vertical-form">
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input matInput type="text" formControlName="title" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input matInput type="text" formControlName="description" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>startDate</mat-label>
+          <input matInput type="text" formControlName="startDate" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>endDate</mat-label>
+          <input matInput type="text" formControlName="endDate" />
+        </mat-form-field>
+      </div>
+
+      <mat-icon
+        class="cursor-pointer"
+        aria-hidden="false"
+        aria-label="Example home icon"
+        (click)="deleteItem(i, typeOfControlArray.EXPERIENCE)"
+        >trash</mat-icon
+      >
+    </ng-container>
+    <button mat-flat-button type="button" (click)="addExperience()">Add Experience</button>
+  </ng-container>
 
   <button mat-flat-button type="submit">Save</button>
   <button mat-flat-button type="button" (click)="cancel()">Cancel</button>
