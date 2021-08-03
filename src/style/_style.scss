@@ -3,3 +3,31 @@
     display: block;
   }
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.container {
+  padding: 1rem;
+
+  &-info {
+    display: flex;
+    margin-top: 0.2rem;
+
+    > div {
+      &:first-child {
+        width: 40%;
+      }
+
+      > app-label-value {
+        display: block;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+.divider {
+  margin-bottom: 1rem !important; // todo in feature delete important
+}

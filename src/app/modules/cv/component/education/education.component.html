@@ -1,0 +1,11 @@
+<section class="container-info">
+  <div>
+    <app-label-value label="Title" [valueItem]="data.title"></app-label-value>
+    <app-label-value label="Description" [valueItem]="data.description"></app-label-value>
+  </div>
+
+  <div>
+    <app-label-value label="Start date" [valueItem]="data.startDate | date: 'dd-MM-YYYY'"></app-label-value>
+    <app-label-value label="End date" [valueItem]="data.endDate | date: 'dd-MM-YYYY'"></app-label-value>
+  </div>
+</section>
