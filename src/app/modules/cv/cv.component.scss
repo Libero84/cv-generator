@@ -1,10 +1,20 @@
 .container {
   &--cv {
     padding: 1rem;
+
+    > button {
+      margin-bottom: 1rem;
+    }
   }
+
   &--table {
     & table {
       width: 100%;
     }
   }
+}
+
+.table--between-element {
+  display: flex;
+  justify-content: space-between;
 }

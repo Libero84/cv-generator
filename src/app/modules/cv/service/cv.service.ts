@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BackendCv, Cv } from '../../../models/cv';
+import { BackendCv, BackendCvAll, Cv } from '../../../models/cv';
 import { environment } from '../../../../environments/environment';
 import { map } from 'rxjs/operators';
 
@@ -14,11 +14,11 @@ export class CvService {
   constructor(private readonly http: HttpClient) {}
 
   getCvAll(): Observable<Cv[]> {
-    return this.http.get<BackendCv>(this.URL).pipe(map((res: BackendCv) => res.data));
+    return this.http.get<BackendCvAll>(this.URL).pipe(map((res: BackendCvAll) => res.data));
   }
 
   getCv(cvId: number): Observable<Cv> {
-    return this.http.get<Cv>(this.URL + cvId);
+    return this.http.get<BackendCv>(this.URL + cvId).pipe(map((res: BackendCv) => res.data));
   }
 
   downloadCv(cvId: number): Observable<any> {

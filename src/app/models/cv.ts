@@ -1,7 +1,13 @@
-export interface BackendCv {
+export interface BackendCvAll {
   data: Cv[];
   status: number;
 }
+
+export interface BackendCv {
+  data: Cv;
+  status: number;
+}
+
 export interface Cv {
   id: number;
   name: string;
@@ -14,14 +20,14 @@ export interface Cv {
   updatedAt: string;
 }
 
-interface Experiences {
+export interface Experiences {
   title: string;
   description: string;
   startDate: string;
-  endDate: String;
+  endDate: string;
 }
 
-interface Education {
+export interface Education {
   title: string;
   description: string;
   startDate: string;

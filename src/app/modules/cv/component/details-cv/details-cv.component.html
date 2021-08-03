@@ -1,0 +1,36 @@
+<section *ngIf="detailsCv" class="container container--details">
+  <article class="main-info">
+    <div>
+      <app-label-value label="User Name" [valueItem]="detailsCv.name + ' ' + detailsCv.surname"></app-label-value>
+      <app-label-value label="Email" [valueItem]="detailsCv.email"></app-label-value>
+    </div>
+
+    <div>
+      <app-label-value label="Phone" [valueItem]="detailsCv.phone"></app-label-value>
+      <app-label-value label="Created" [valueItem]="detailsCv.createdAt | date: 'dd-MM-YYYY'"></app-label-value>
+    </div>
+  </article>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Education </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngFor="let education of detailsCv.education; let last = last">
+        <app-education [data]="education"></app-education>
+        <mat-divider class="divider" *ngIf="!last"></mat-divider>
+      </ng-container>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Experience </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container *ngFor="let experience of detailsCv.experiences; let last = last">
+        <app-experiences [data]="experience"></app-experiences>
+        <mat-divider class="divider" *ngIf="!last"></mat-divider>
+      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

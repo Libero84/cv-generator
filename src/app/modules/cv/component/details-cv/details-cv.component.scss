@@ -1,0 +1,16 @@
+.container--details {
+  .main-info {
+    display: flex;
+
+    > div {
+      app-label-value {
+        margin-bottom: 2rem;
+        display: block;
+      }
+
+      &:first-child {
+        width: 40%;
+      }
+    }
+  }
+}
