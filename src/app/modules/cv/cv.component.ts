@@ -19,7 +19,9 @@ export class CvComponent implements OnInit {
     this.cvService.getCvAll().subscribe((res: Cv[]) => (this.allCvs = res));
   }
 
-  addCv(): void {}
+  addCv(): void {
+    this.router.navigateByUrl('/cv/add');
+  }
 
   editCv(cvId: number): void {}
 
