@@ -31,7 +31,6 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Education</mat-panel-title>
         </mat-expansion-panel-header>
-        {{ education.controls | json }}
         <ng-container formArrayName="education">
           <ng-container *ngFor="let edu of education.controls; let i = index; let last = last">
             <div [formGroupName]="i" class="container--flex-horizontal space-between align-center">
