@@ -29,7 +29,8 @@ export class CvComponent implements OnInit {
     this.router.navigateByUrl('/cv/add');
   }
 
-  deleteCv(cvId: number): void {
+  deleteCv(cvId: number, event: Event): void {
+    event.stopPropagation();
     this.cvService
       .deleteCv(cvId)
       .pipe(switchMap(() => this.cvService.getCvAll()))

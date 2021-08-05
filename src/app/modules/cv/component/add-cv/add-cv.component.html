@@ -128,8 +128,12 @@
     </mat-accordion>
   </section>
 
-  <div class="container--button-group">
-    <button mat-flat-button color="primary" type="submit">Save</button>
-    <button mat-flat-button color="accent" type="button" (click)="cancel()">Cancel</button>
+  <div class="container--buttons">
+    <div></div>
+    <div class="container--button-group">
+      <button mat-flat-button color="primary" type="submit">Save</button>
+      <button mat-flat-button color="accent" type="button" (click)="cancel()">Cancel</button>
+    </div>
+    <button mat-flat-button type="button" (click)="close()">Close</button>
   </div>
 </form>

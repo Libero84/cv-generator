@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationBackService } from '../../../../helper/navigation-back.service';
 import { ShareCvDataService } from '../../../../helper/share-cv-data.service';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
-import { Cv, Education } from '../../../../models/cv';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Cv, Education, Experiences } from '../../../../models/cv';
 import { CvService } from '../../service/cv.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { errorMsg } from '../../../../helper/errorMsg';
@@ -25,8 +25,6 @@ export class AddCvComponent implements OnInit, OnDestroy {
   typeOfControlArray: typeof TypeOfControlArray = TypeOfControlArray;
   destroy$: Subject<any> = new Subject<any>();
   isAdd: boolean = true;
-  addCv$!: Observable<Cv>;
-  editCv$!: Observable<Cv>;
   cvId!: number;
 
   constructor(
@@ -46,8 +44,8 @@ export class AddCvComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.shareCvData.cvData$.pipe(takeUntil(this.destroy$)).subscribe((data: Cv | null) => {
+      this.isAdd = !data;
       this.initForm();
-      this.isAdd = !!data;
       if (data) {
         this.dispatchValue(data);
         this.cvId = data.id;
@@ -65,30 +63,22 @@ export class AddCvComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.callToCorrectMethod();
     const body: Cv = this.fg.getRawValue();
 
-    this.addCv$
-      .pipe(
-        switchMap(() => this.cvService.createCv(body)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
+    if (this.isAdd) {
+      body.phone = body.phone.toString();
+      this.cvService.createCv(body).subscribe(
         (res) => {
           console.info('added success: ', res);
         },
         (error: HttpErrorResponse) => errorMsg(error)
       );
-
-    this.editCv$
-      .pipe(
-        switchMap(() => this.cvService.updateCv(this.cvId, body)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
+    } else {
+      this.cvService.updateCv(this.cvId, body).subscribe(
         (res) => console.info('update success: ', res),
         (error: HttpErrorResponse) => errorMsg(error)
       );
+    }
   }
 
   addExperience(): void {
@@ -120,8 +110,8 @@ export class AddCvComponent implements OnInit, OnDestroy {
       surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [null, Validators.required],
-      [TypeOfControlArray.EDUCATION]: this.formBuilder.array([this.createEducation()]),
-      [TypeOfControlArray.EXPERIENCE]: this.formBuilder.array([this.createExperiences()]),
+      [TypeOfControlArray.EDUCATION]: this.formBuilder.array(this.isAdd ? [this.createEducation()] : []),
+      [TypeOfControlArray.EXPERIENCE]: this.formBuilder.array(this.isAdd ? [this.createExperiences()] : []),
     });
   }
 
@@ -144,6 +134,8 @@ export class AddCvComponent implements OnInit, OnDestroy {
   }
 
   private dispatchValue(data: Cv): void {
+    this.patchEducation(data.education);
+    this.patchExperience(data.experiences);
     this.fg.patchValue({
       name: data.name,
       surname: data.surname,
@@ -154,8 +146,15 @@ export class AddCvComponent implements OnInit, OnDestroy {
     });
   }
 
-  private callToCorrectMethod(): void {
-    this.addCv$.pipe(filter(() => this.isAdd));
-    this.editCv$.pipe(filter(() => !this.isAdd));
+  private patchEducation(educations: Education[]): void {
+    _forEach(educations, () => {
+      this.education.push(this.createEducation());
+    });
+  }
+
+  private patchExperience(experiences: Experiences[]): void {
+    _forEach(experiences, () => {
+      this.experiences.push(this.createExperiences());
+    });
   }
 }

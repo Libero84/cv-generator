@@ -10,9 +10,14 @@
     }
   }
 
+  &--buttons {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+  }
+
   &--button-group {
     text-align: center;
-    margin-top: auto;
 
     button {
       &:first-child {
