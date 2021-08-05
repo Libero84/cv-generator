@@ -13,6 +13,8 @@ import { EducationComponent } from './component/education/education.component';
 import { ExperiencesComponent } from './component/experiences/experiences.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatExpansionModule,
     MatDividerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 })
 export class CvModule {}

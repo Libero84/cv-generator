@@ -1,5 +1,5 @@
 <section class="container--cv">
-  <button mat-flat-button color="primary" (click)="addCv()">Add new cv</button>
+  <button mat-flat-button color="primary" (click)="addOrEditCv(null)">Add new cv</button>
 
   <section class="container--table" *ngIf="allCvs.length">
     <table mat-table [dataSource]="allCvs" class="table mat-elevation-z8">
@@ -36,7 +36,7 @@
                 class="cursor-pointer"
                 aria-hidden="false"
                 aria-label="Example home icon"
-                (click)="editCv(element.id)"
+                (click)="addOrEditCv(element)"
                 >edit</mat-icon
               >
               <mat-icon

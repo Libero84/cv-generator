@@ -26,8 +26,34 @@
       }
     }
   }
+
+  &--flex-horizontal {
+    display: flex;
+  }
+
+  &--flex-vertical {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--overflow-page {
+    height: 100%;
+    overflow-y: auto;
+  }
 }
 
 .divider {
   margin-bottom: 1rem !important; // todo in feature delete important
+}
+
+.center-elem {
+  text-align: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
 }

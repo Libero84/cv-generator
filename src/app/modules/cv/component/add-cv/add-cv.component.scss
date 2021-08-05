@@ -1,0 +1,31 @@
+.container {
+  &--full-page {
+    height: calc(100% - 6rem);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    mat-form-field {
+      width: 180px;
+    }
+  }
+
+  &--button-group {
+    text-align: center;
+    margin-top: auto;
+
+    button {
+      &:first-child {
+        margin-right: 0.2rem;
+      }
+    }
+  }
+
+  &--flex-horizontal {
+    > article {
+      &:first-child {
+        width: 40%;
+      }
+    }
+  }
+}

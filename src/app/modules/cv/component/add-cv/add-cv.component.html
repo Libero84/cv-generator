@@ -1,98 +1,136 @@
-<form [formGroup]="fg" (submit)="addCv()">
-  <section class="vertical-form">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput type="text" formControlName="name" />
-    </mat-form-field>
+<form [formGroup]="fg" (submit)="addCv()" class="container--full-page">
+  <section class="container--overflow-page">
+    <section class="container--flex-horizontal">
+      <article class="container--flex-vertical">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>SurName</mat-label>
-      <input matInput type="text" formControlName="surname" />
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>SurName</mat-label>
+          <input matInput type="text" formControlName="surname" />
+        </mat-form-field>
+      </article>
+
+      <article class="container--flex-vertical">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="text" formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Phone</mat-label>
+          <input matInput type="number" formControlName="phone" />
+        </mat-form-field>
+      </article>
+    </section>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Education</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-container formArrayName="education">
+          <ng-container *ngFor="let edu of education.controls; let i = index; let last = last">
+            <div [formGroupName]="i" class="container--flex-horizontal space-between align-center">
+              <article class="container--flex-vertical">
+                <mat-form-field>
+                  <mat-label>Title</mat-label>
+                  <input matInput type="text" formControlName="title" />
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>Description</mat-label>
+                  <input matInput type="text" formControlName="description" />
+                </mat-form-field>
+              </article>
+
+              <article class="container--flex-vertical">
+                <mat-form-field>
+                  <mat-label>startDate</mat-label>
+                  <input matInput type="text" formControlName="startDate" />
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>endDate</mat-label>
+                  <input matInput type="text" formControlName="endDate" />
+                </mat-form-field>
+              </article>
+
+              <mat-icon
+                *ngIf="education.controls.length > 1"
+                class="cursor-pointer"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                (click)="deleteItem(i, typeOfControlArray.EDUCATION)"
+                >delete
+              </mat-icon>
+            </div>
+
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+          <section class="center-elem">
+            <button mat-flat-button type="button" (click)="addEducation()">Add Education</button>
+          </section>
+        </ng-container>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Experiences</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-container formArrayName="experiences">
+          <ng-container *ngFor="let exp of experiences.controls; let i = index; let last = last">
+            <div [formGroupName]="i" class="container--flex-horizontal space-between align-center">
+              <article class="container--flex-vertical">
+                <mat-form-field>
+                  <mat-label>Title</mat-label>
+                  <input matInput type="text" formControlName="title" />
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>Description</mat-label>
+                  <input matInput type="text" formControlName="description" />
+                </mat-form-field>
+              </article>
+
+              <article class="container--flex-vertical">
+                <mat-form-field>
+                  <mat-label>startDate</mat-label>
+                  <input matInput type="text" formControlName="startDate" />
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>endDate</mat-label>
+                  <input matInput type="text" formControlName="endDate" />
+                </mat-form-field>
+              </article>
+
+              <mat-icon
+                *ngIf="experiences.controls.length > 1"
+                class="cursor-pointer"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                (click)="deleteItem(i, typeOfControlArray.EXPERIENCE)"
+                >delete
+              </mat-icon>
+            </div>
+
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+          <section class="center-elem">
+            <button mat-flat-button type="button" (click)="addExperience()">Add Experience</button>
+          </section>
+        </ng-container>
+      </mat-expansion-panel>
+    </mat-accordion>
   </section>
 
-  <section class="vertical-form">
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput type="text" formControlName="email" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Phone</mat-label>
-      <input matInput type="number" formControlName="phone" />
-    </mat-form-field>
-  </section>
-
-  <ng-container formArrayName="education">
-    <ng-container *ngFor="let edu of education.controls; let i = index">
-      <div [formGroupName]="i" class="vertical-form">
-        <mat-form-field>
-          <mat-label>Title</mat-label>
-          <input matInput type="text" formControlName="title" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Description</mat-label>
-          <input matInput type="text" formControlName="description" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>startDate</mat-label>
-          <input matInput type="text" formControlName="startDate" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>endDate</mat-label>
-          <input matInput type="text" formControlName="endDate" />
-        </mat-form-field>
-      </div>
-
-      <mat-icon
-        class="cursor-pointer"
-        aria-hidden="false"
-        aria-label="Example home icon"
-        (click)="deleteItem(i, typeOfControlArray.EDUCATION)"
-        >trash</mat-icon
-      >
-    </ng-container>
-    <button mat-flat-button type="button" (click)="addEducation()">Add Education</button>
-  </ng-container>
-
-  <ng-container formArrayName="experiences">
-    <ng-container *ngFor="let exp of experiences.controls; let i = index">
-      <div [formGroupName]="i" class="vertical-form">
-        <mat-form-field>
-          <mat-label>Title</mat-label>
-          <input matInput type="text" formControlName="title" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Description</mat-label>
-          <input matInput type="text" formControlName="description" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>startDate</mat-label>
-          <input matInput type="text" formControlName="startDate" />
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>endDate</mat-label>
-          <input matInput type="text" formControlName="endDate" />
-        </mat-form-field>
-      </div>
-
-      <mat-icon
-        class="cursor-pointer"
-        aria-hidden="false"
-        aria-label="Example home icon"
-        (click)="deleteItem(i, typeOfControlArray.EXPERIENCE)"
-        >trash</mat-icon
-      >
-    </ng-container>
-    <button mat-flat-button type="button" (click)="addExperience()">Add Experience</button>
-  </ng-container>
-
-  <button mat-flat-button type="submit">Save</button>
-  <button mat-flat-button type="button" (click)="cancel()">Cancel</button>
+  <div class="container--button-group">
+    <button mat-flat-button color="primary" type="submit">Save</button>
+    <button mat-flat-button color="accent" type="button" (click)="cancel()">Cancel</button>
+  </div>
 </form>
